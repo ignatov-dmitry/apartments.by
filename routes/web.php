@@ -20,8 +20,12 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin', 'Admin\AdminController@index')->name('admin');
+
+
     Route::get('/admin/add_form','Admin\ApartmentController@getAddForm')->name('addApartmentGet');
     Route::post('/admin/add_form','Admin\ApartmentController@addApartment')->middleware('can:admin-panel')->name('addApartmentPost');
+
+
     Route::get('/admin/apartments_list', 'Admin\ApartmentController@getApartments')->name('list');
     Route::get('/admin/apartment/{id}', 'Admin\ApartmentController@getApartment')->middleware('can:admin-panel')->name('getApartment');
     Route::post('/admin/remove_apartment', 'Admin\ApartmentController@deleteApartment')->middleware('can:admin-panel')->name('removeApartment');
@@ -30,8 +34,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/attributes', 'Admin\AttributeController@addAttribute')->middleware('can:admin-panel')->name('addAttribute');
     Route::get('/update_attribute/{id}', 'Admin\AttributeController@getAttribute')->middleware('can:admin-panel')->name('getAttribute');
     Route::post('/update_attribute', 'Admin\AttributeController@updateAttribute')->middleware('can:admin-panel')->name('updateAttribute');
-    Route::get('/get_cities_ajax/{country_id}', 'Admin\ApartmentController@getCitiesAjax');
+
+
+    Route::get('/get_cities_ajax/{region_id}', 'Admin\ApartmentController@getCitiesAjax');
+    Route::get('/get_regions_ajax/{country_id}', 'Admin\ApartmentController@getRegionsAjax');
     Route::get('/get_location_ajax/{apartment_id}', 'Admin\ApartmentController@getApartmentLocationAjax');
+
 
     Route::get('/admin/managers', 'Admin\UserController@getManagers')->middleware('can:admin-panel')->name('managers');
     Route::post('/admin/add_manager', 'Admin\UserController@addManager')->middleware('can:admin-panel')->name('addManager');

@@ -7,6 +7,7 @@ use App\ApartmentAttribute;
 use App\ApartmentType;
 use App\Attribute;
 use App\Country;
+use App\Region;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -106,8 +107,15 @@ class ApartmentController extends Controller
         return redirect()->route('getApartment', $apartment);
     }
 
-    public function getCitiesAjax($country_id){
+    public function getRegionsAjax($country_id){
         $countries = Country::whereId($country_id)->first();
+        return view('admin.apartment.cities',[
+            'cities' => $countries->regions
+        ]);
+    }
+
+    public function getCitiesAjax($region_id){
+        $countries = Region::whereId($region_id)->first();
         return view('admin.apartment.cities',[
             'cities' => $countries->cities
         ]);

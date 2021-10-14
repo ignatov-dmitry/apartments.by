@@ -32,8 +32,13 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <select class="form-control" name="region_id" id="region_id">
+                                        <option>Нужно выбрать регион</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <select class="form-control" name="city_id" id="city_id">
-                                        <option>Нужно выбрать страну</option>
+                                        <option>Нужно выбрать город</option>
                                     </select>
                                 </div>
                                 <div class="form-group">

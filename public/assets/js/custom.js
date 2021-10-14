@@ -113,8 +113,26 @@ function myMap() {
 
 $('#country_id').change(function () {
   let id = $(this).val();
+  getRegions(id);
+});
+
+$('#region_id').change(function () {
+  let id = $(this).val();
   getCities(id);
 });
+
+function getRegions(id) {
+  $.ajax({
+    async:false,
+    url: '/get_regions_ajax/' + id,
+    success: function (data) {
+      console.log('getRegions');
+      $('#region_id').html('');
+      $('#region_id').append(data);
+      $('#region_id').niceSelect('update')
+    }
+  });
+}
 
 function getCities(id) {
   $.ajax({
