@@ -50,42 +50,32 @@ class ApartmentController extends Controller
     public function filter(Request $request){
 
         if ($filter = $request->filter){
-            $attributes_ids = array();
-            $apartments = Apartment::
-                    select('apartments.*')
-                    ->join('apartment_attributes as attr', 'apartments.id', 'attr.apartment_id');
+            $apartments = Apartment::select('apartments.*');
 
-            $attributes = Attribute::select('id')->get();
-
-            foreach ($attributes as $attribute){
-                $attributes_ids[] = $attribute->id;
-            }
-
-
-            if ($price = $filter['price']){
-                $apartments->whereBetween('price', array($price['min'], $price['max']));
+            if (isset($filter['price']) && $price = $filter['price']){
+                !isset($price['min']) ? : $apartments->where('price', '>=', $price['min']);
+                !isset($price['max']) ? : $apartments->where('price', '<=', $price['max']);
             }
 
             if ($area = $filter['area']){
-                $apartments->where('area', '>=', $area);
+                $apartments->where('area', '>=', (int) $area);
             }
 
             if ($type = $filter['type']){
-                $apartments->where('type_id', '=', $type);
+                $apartments->where('type_id', '=', (int) $type);
             }
 
 
-            if ($static = $filter['static']){
-                if ($filter['exact'] = true){
-                    $apartments->whereNotIn('attr.attribute_id', array_diff($attributes_ids, $static))->whereIn('attr.attribute_id', $static);
-                }
-                else{
-                    $apartments->whereIn('attr.attribute_id', $static);
+            if (isset($filter['static'])){
+                $statics = $filter['static'];
+                $joinCounter = 0;
+                foreach ($statics as $key => $value) {
+                    $apartments->leftJoin('apartment_attributes as attr' . $joinCounter, 'apartments.id', 'attr' . $joinCounter . '.apartment_id');
+                    $apartments->where('attr' . $joinCounter . '.attribute_id', $value);
+                    $joinCounter++;
                 }
 
             }
-
-            //dd($apartments->get());
 
             return view('apartment.filter',[
                 'apartments'       => $apartments->distinct()->get(),

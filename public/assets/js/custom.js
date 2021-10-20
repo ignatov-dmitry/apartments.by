@@ -22,7 +22,7 @@ $(".user_search_btn").click(function(e) {
 
 // nice select
 $(document).ready(function() {
-  $("select").niceSelect();
+  //$("select").niceSelect();
 });
 
 // client section owl carousel
@@ -168,4 +168,14 @@ $(document).ready(function () {
 
 });
 
-
+$("#attributes").selectize({
+  plugins: ["remove_button"],
+  delimiter: ",",
+  persist: false,
+  create: function (input) {
+    return {
+      value: input,
+      text: input,
+    };
+  },
+});

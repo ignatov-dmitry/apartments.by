@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
     <!-- responsive css -->
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/selectize.css') }}" />
     <!-- custom css -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" />
     <!--[if lt IE 9]>
@@ -83,18 +84,12 @@
 <!-- end  footer section -->
 
 <!-- js section -->
-<!-- jQuery -->
 <script src="{{ asset('assets/js/jquery-3.4.1.min.js') }}"></script>
-<!-- bootstrap js -->
 <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-<!-- owl slider -->
 <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
-<!-- nice select -->
 <script src="{{ asset('assets/js/jquery.nice-select.min.js') }}"></script>
-<!-- custom js -->
-<script src="{{ asset('assets/js/custom.js') }}"></script>
-<!-- users scripts -->
 @yield('js')
+<script src="{{ asset('assets/js/custom.js') }}"></script>
 <!-- Google Map -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
 <!-- End Google Map -->

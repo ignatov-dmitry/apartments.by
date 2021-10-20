@@ -10,8 +10,8 @@
                 <form action="{{ route('filter') }}" method="get">
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-6"><input value="{{ $filter_param['price']['min'] }}" name="filter[price][min]" type="text" class="form-control" required placeholder="Мин. цена"></div>
-                            <div class="col-md-6"><input value="{{ $filter_param['price']['max'] }}" name="filter[price][max]" type="text" class="form-control" required placeholder="Макс. цена"></div>
+                            <div class="col-md-6"><input value="{{ $filter_param['price']['min'] }}" name="filter[price][min]" type="text" class="form-control" placeholder="Мин. цена"></div>
+                            <div class="col-md-6"><input value="{{ $filter_param['price']['max'] }}" name="filter[price][max]" type="text" class="form-control" placeholder="Макс. цена"></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -24,12 +24,20 @@
                             @endforeach
                         </select>
                     </div>
-                    @foreach($filters as $filter)
-                        <div class="form-check">
-                            <input  @if(in_array($filter->id, $filter_param['static'])) checked @endif value="{{ $filter->id }}" type="checkbox" name="filter[static][]" id="filter_id_{{ $filter->id }}" class="form-check-input">
-                            <label class="form-check-label" for="filter_id_{{ $filter->id }}">{{ $filter->name }}</label>
-                        </div>
-                    @endforeach
+                    <div class="form-group">
+                        <select id="attributes" name="filter[static][]" id="" multiple>
+                            @foreach($filters as $filter)
+                            <option @if(isset($filter_param['static']) && in_array($filter->id, $filter_param['static'])) selected @endif value="{{ $filter->id }}">{{ $filter->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+<!--                    @foreach($filters as $filter)-->
+<!--                        <div class="form-check">-->
+<!--                            <input  @if(isset($filter_param['static']) && in_array($filter->id, $filter_param['static'])) checked @endif value="{{ $filter->id }}" type="checkbox" name="filter[static][]" id="filter_id_{{ $filter->id }}" class="form-check-input">-->
+<!--                            <label class="form-check-label" for="filter_id_{{ $filter->id }}">{{ $filter->name }}</label>-->
+<!--                        </div>-->
+<!--                    @endforeach-->
                     <button class="btn btn-danger" type="submit">Фильтр</button>
                 </form>
             </div>
@@ -60,4 +68,7 @@
     </div>
 </div>
 
+@endsection
+@section('js')
+<script src="{{ asset('assets/js/selectize.js') }}"></script>
 @endsection
