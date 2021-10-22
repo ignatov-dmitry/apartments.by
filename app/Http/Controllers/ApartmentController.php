@@ -3,22 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Apartment;
-use App\ApartmentAttribute;
 use App\ApartmentType;
 use App\Attribute;
+use App\City;
+use App\Country;
 use App\Favorite;
+use App\Region;
 use Illuminate\Http\Request;
 
 class ApartmentController extends Controller
 {
     public function getApartments(Request $request)
     {
-        $apartments = Apartment::all();
-        return view('apartment.apartments',[
+        if ($filter = $request->filter) {
+            $apartments = Apartment::apartmentFilter($request->filter);
+        }
+        else {
+            $apartments = Apartment::all();
+        }
+
+        return view('apartment.apartments', [
             'apartments'       => $apartments,
             'head_text'        => 'Каталог квартир',
             'filters'          => Attribute::all(),
-            'apartments_types' => ApartmentType::all()
+            'apartments_types' => ApartmentType::all(),
+            'countries'        => Country::all(),
+            'regions'          => Region::all(),
+            'cities'           => City::all(),
+            'filter_param'     => $filter
         ]);
     }
 
@@ -46,47 +58,6 @@ class ApartmentController extends Controller
         ]);
     }
 
-
-    public function filter(Request $request){
-
-        if ($filter = $request->filter){
-            $apartments = Apartment::select('apartments.*');
-
-            if (isset($filter['price']) && $price = $filter['price']){
-                !isset($price['min']) ? : $apartments->where('price', '>=', $price['min']);
-                !isset($price['max']) ? : $apartments->where('price', '<=', $price['max']);
-            }
-
-            if ($area = $filter['area']){
-                $apartments->where('area', '>=', (int) $area);
-            }
-
-            if ($type = $filter['type']){
-                $apartments->where('type_id', '=', (int) $type);
-            }
-
-
-            if (isset($filter['static'])){
-                $statics = $filter['static'];
-                $joinCounter = 0;
-                foreach ($statics as $key => $value) {
-                    $apartments->leftJoin('apartment_attributes as attr' . $joinCounter, 'apartments.id', 'attr' . $joinCounter . '.apartment_id');
-                    $apartments->where('attr' . $joinCounter . '.attribute_id', $value);
-                    $joinCounter++;
-                }
-
-            }
-
-            return view('apartment.filter',[
-                'apartments'       => $apartments->distinct()->get(),
-                'head_text'        => 'Каталог квартир',
-                'filters'          => Attribute::all(),
-                'apartments_types' => ApartmentType::all(),
-                'filter_param'     => $filter
-            ]);
-        }
-    }
-
     public function addFavorite(Request $request)
     {
         $favorite = Favorite::updateOrCreate([
@@ -96,4 +67,24 @@ class ApartmentController extends Controller
         return redirect()->back();
     }
 
+    public function getRegionsAjax($country_id){
+        $countries = Country::whereId($country_id)->first();
+        return view('admin.apartment.cities',[
+            'cities' => $countries->regions
+        ]);
+    }
+
+    public function getCitiesAjax($region_id){
+        $countries = Region::whereId($region_id)->first();
+        return view('admin.apartment.cities',[
+            'cities' => $countries->cities
+        ]);
+    }
+
+    public function getApartmentLocationAjax($apartment_id){
+        $apartment = Apartment::whereId($apartment_id)->first();
+        return response()->json([
+            'city' => $apartment->city_id
+        ]);
+    }
 }

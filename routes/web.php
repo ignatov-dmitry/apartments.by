@@ -36,11 +36,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/update_attribute', 'Admin\AttributeController@updateAttribute')->middleware('can:admin-panel')->name('updateAttribute');
 
 
-    Route::get('/get_cities_ajax/{region_id}', 'Admin\ApartmentController@getCitiesAjax');
-    Route::get('/get_regions_ajax/{country_id}', 'Admin\ApartmentController@getRegionsAjax');
-    Route::get('/get_location_ajax/{apartment_id}', 'Admin\ApartmentController@getApartmentLocationAjax');
-
-
     Route::get('/admin/managers', 'Admin\UserController@getManagers')->middleware('can:admin-panel')->name('managers');
     Route::post('/admin/add_manager', 'Admin\UserController@addManager')->middleware('can:admin-panel')->name('addManager');
     Route::post('/admin/remove_manager', 'Admin\UserController@removeManager')->middleware('can:admin-panel')->name('removeManager');
@@ -50,6 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/get_user/{id}', 'Admin\UserController@getUser')->middleware('can:admin-panel')->name('getUser');
     Route::post('/admin/update_user', 'Admin\UserController@updateUser')->middleware('can:admin-panel')->name('updateUser');
     Route::post('/admin/delete_user', 'Admin\UserController@deleteUser')->middleware('can:admin-panel')->name('deleteUser');
+
 
     Route::get('/admin/charts', 'Admin\AnalyticsController@getCarts')->name('charts');
     Route::get('/json/analytics', 'Admin\AnalyticsController@getPricesHistory');
@@ -70,4 +66,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/apartments', 'ApartmentController@getApartments')->name('apartments');
 Route::get('/apartment/{id}', 'ApartmentController@getApartment')->name('apartment');
 Route::post('/add_favorite', 'ApartmentController@addFavorite');
-Route::get('/apartments/filter', 'ApartmentController@filter')->name('filter');
+
+Route::get('/get_cities_ajax/{region_id}', 'ApartmentController@getCitiesAjax');
+Route::get('/get_regions_ajax/{country_id}', 'ApartmentController@getRegionsAjax');
+Route::get('/get_location_ajax/{apartment_id}', 'ApartmentController@getApartmentLocationAjax');

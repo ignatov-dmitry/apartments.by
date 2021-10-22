@@ -67,27 +67,27 @@ class Apartment extends Model
     ];
 
 
-    public function user(){
+    public function user() {
         return $this->belongsTo('App\User');
     }
 
-    public function type(){
+    public function type() {
         return $this->belongsTo('App\ApartmentType');
     }
 
-    public function country(){
+    public function country() {
         return $this->belongsTo('App\Country');
     }
 
-    public function city(){
+    public function city() {
         return $this->belongsTo('App\City');
     }
 
-    public function attributes(){
+    public function attributes() {
         return $this->hasMany('App\ApartmentAttribute');
     }
 
-    public function imageSave(Request $request){
+    public function imageSave(Request $request) {
         $fileSystem = new Filesystem();
         if($request->file('image')){
             $file = $request->file('image');
@@ -104,8 +104,37 @@ class Apartment extends Model
         }
     }
 
+    public static function apartmentFilter(array $data) {
+        $apartments = Apartment::select('apartments.*');
 
-    public function attributesSave(Request $request, $apartment_id){
+        if (isset($data['price']) && $price = $data['price']){
+            !isset($price['min']) ? : $apartments->where('price', '>=', $price['min']);
+            !isset($price['max']) ? : $apartments->where('price', '<=', $price['max']);
+        }
+
+        if ($area = $data['area']){
+            $apartments->where('area', '>=', (int) $area);
+        }
+
+        if ($type = $data['type']){
+            $apartments->where('type_id', '=', (int) $type);
+        }
+
+
+        if (isset($data['attributes'])){
+            $attributes = $data['attributes'];
+            $joinCounter = 0;
+            foreach ($attributes as $key => $value) {
+                $apartments->leftJoin('apartment_attributes as attr' . $joinCounter, 'apartments.id', 'attr' . $joinCounter . '.apartment_id');
+                $apartments->where('attr' . $joinCounter . '.attribute_id', $value);
+                $joinCounter++;
+            }
+        }
+
+        return $apartments->distinct()->get();
+    }
+
+    public function attributesSave(Request $request, $apartment_id) {
         $attribute_ids = $request->get('attribute_id');
         foreach ($attribute_ids as $key => $value){
             $apartmentAttribute = new ApartmentAttribute();

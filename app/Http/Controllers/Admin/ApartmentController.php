@@ -106,25 +106,4 @@ class ApartmentController extends Controller
 
         return redirect()->route('getApartment', $apartment);
     }
-
-    public function getRegionsAjax($country_id){
-        $countries = Country::whereId($country_id)->first();
-        return view('admin.apartment.cities',[
-            'cities' => $countries->regions
-        ]);
-    }
-
-    public function getCitiesAjax($region_id){
-        $countries = Region::whereId($region_id)->first();
-        return view('admin.apartment.cities',[
-            'cities' => $countries->cities
-        ]);
-    }
-
-    public function getApartmentLocationAjax($apartment_id){
-        $apartment = Apartment::whereId($apartment_id)->first();
-        return response()->json([
-            'city' => $apartment->city_id
-        ]);
-    }
 }

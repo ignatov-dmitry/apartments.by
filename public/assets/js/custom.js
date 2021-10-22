@@ -111,6 +111,34 @@ function myMap() {
   var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 }
 
+
+function urlGetParams(param = null) {
+  let params = [];
+
+  params = window
+      .location
+      .search
+      .replace('?','')
+      .split('&')
+      .reduce(
+          function(p,e){
+            var a = e.split('=');
+            p[ decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
+            return p;
+          },
+          {}
+      );
+  if (param === null) {
+    return params;
+  }
+  else if (param in params) {
+    return params[param];
+  }
+  else {
+    return false;
+  }
+}
+
 $('#country_id').change(function () {
   let id = $(this).val();
   getRegions(id);
@@ -121,28 +149,28 @@ $('#region_id').change(function () {
   getCities(id);
 });
 
-function getRegions(id) {
+function getRegions(id, regionId = false) {
   $.ajax({
     async:false,
     url: '/get_regions_ajax/' + id,
     success: function (data) {
-      console.log('getRegions');
-      $('#region_id').html('');
-      $('#region_id').append(data);
-      $('#region_id').niceSelect('update')
+      $('#region_id').html('').append(data).niceSelect('update');
+      if (regionId)  {
+        $('#region_id [value=' + regionId + ']').attr('selected', 'selected');
+      }
     }
   });
 }
 
-function getCities(id) {
+function getCities(id, cityId = false) {
   $.ajax({
     async:false,
     url: '/get_cities_ajax/' + id,
     success: function (data) {
-      console.log('getCities');
-      $('#city_id').html('');
-      $('#city_id').append(data);
-      $('#city_id').niceSelect('update')
+      $('#city_id').html('').append(data).niceSelect('update');
+      if (cityId)  {
+        $('#city_id [value=' + cityId + ']').attr('selected', 'selected');
+      }
     }
   });
 }
@@ -152,8 +180,6 @@ function getApartmentLocation(apartment_id) {
     async:false,
     url: '/get_location_ajax/' + apartment_id,
     success: function (data) {
-      console.log('getApartmentLocation');
-      console.log('#city_id #city_id_' + data['city']);
       $('#city_id #city_id_' + data['city']).attr('selected', true)
       $('#city_id').niceSelect('update')
     }
@@ -166,16 +192,16 @@ $(document).ready(function () {
     getApartmentLocation($('#apartment_id').val());
   }
 
+  let countryId = urlGetParams('filter[country]');
+  let regionId = urlGetParams('filter[region]');
+  let cityId = urlGetParams('filter[city]');
+
+  if (countryId) {
+    getRegions(countryId, regionId);
+  }
+
+  if (regionId) {
+    getCities(regionId, cityId)
+  }
 });
 
-$("#attributes").selectize({
-  plugins: ["remove_button"],
-  delimiter: ",",
-  persist: false,
-  create: function (input) {
-    return {
-      value: input,
-      text: input,
-    };
-  },
-});
