@@ -6,6 +6,7 @@ use App\Apartment;
 use App\ApartmentType;
 use App\Attribute;
 use App\City;
+use App\Classes\Filter;
 use App\Country;
 use App\Favorite;
 use App\Region;
@@ -15,12 +16,8 @@ class ApartmentController extends Controller
 {
     public function getApartments(Request $request)
     {
-        if ($filter = $request->filter) {
-            $apartments = Apartment::apartmentFilter($request->filter);
-        }
-        else {
-            $apartments = Apartment::all();
-        }
+        $filter = isset($request->filter) ? $request->filter : null;
+        $apartments = Apartment::apartmentFilter(new Filter($filter));
 
         return view('apartment.apartments', [
             'apartments'       => $apartments,
@@ -67,21 +64,24 @@ class ApartmentController extends Controller
         return redirect()->back();
     }
 
-    public function getRegionsAjax($country_id){
+    public function getRegionsAjax($country_id)
+    {
         $countries = Country::whereId($country_id)->first();
         return view('admin.apartment.cities',[
             'cities' => $countries->regions
         ]);
     }
 
-    public function getCitiesAjax($region_id){
+    public function getCitiesAjax($region_id)
+    {
         $countries = Region::whereId($region_id)->first();
         return view('admin.apartment.cities',[
             'cities' => $countries->cities
         ]);
     }
 
-    public function getApartmentLocationAjax($apartment_id){
+    public function getApartmentLocationAjax($apartment_id)
+    {
         $apartment = Apartment::whereId($apartment_id)->first();
         return response()->json([
             'city' => $apartment->city_id

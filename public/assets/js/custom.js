@@ -192,9 +192,9 @@ $(document).ready(function () {
     getApartmentLocation($('#apartment_id').val());
   }
 
-  let countryId = urlGetParams('filter[country]');
-  let regionId = urlGetParams('filter[region]');
-  let cityId = urlGetParams('filter[city]');
+  let countryId = urlGetParams('filter[country_id]');
+  let regionId = urlGetParams('filter[region_id]');
+  let cityId = urlGetParams('filter[city_id]');
 
   if (countryId) {
     getRegions(countryId, regionId);

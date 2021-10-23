@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg  header_navbar">
     <a class="navbar-brand" href="#">
-        <img src="images/logo.png" alt="" />
+        <img src="/assets/images/logo.png" alt="" />
         <span>
               Evernest
             </span>

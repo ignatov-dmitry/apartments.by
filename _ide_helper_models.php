@@ -56,6 +56,13 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Apartment whereCountryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Apartment whereLock($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Apartment whereModerated($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ApartmentAttribute[] $attributes
+ * @property-read int|null $attributes_count
+ * @property float $area
+ * @property-read \App\Country $country
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Apartment whereArea($value)
+ * @property int $region_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Apartment whereRegionId($value)
  */
 	class Apartment extends \Eloquent {}
 }
@@ -76,6 +83,7 @@ namespace App{
  * @mixin \Eloquent
  * @property string|null $value
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ApartmentAttribute whereValue($value)
+ * @property-read \App\Attribute $attribute
  */
 	class ApartmentAttribute extends \Eloquent {}
 }
@@ -139,6 +147,11 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\City whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\City whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Apartment[] $apartments
+ * @property-read int|null $apartments_count
+ * @property int $region_id
+ * @property-read \App\Region $region
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\City whereRegionId($value)
  */
 	class City extends \Eloquent {}
 }
@@ -161,6 +174,11 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Country whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Country whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Apartment[] $apartments
+ * @property-read int|null $apartments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\City[] $cities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Region[] $regions
+ * @property-read int|null $regions_count
  */
 	class Country extends \Eloquent {}
 }
@@ -173,6 +191,16 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite query()
  * @mixin \Eloquent
+ * @property int $id
+ * @property int $apartment_id
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereApartmentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereUserId($value)
  */
 	class Favorite extends \Eloquent {}
 }
@@ -195,8 +223,28 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\History wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\History whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Apartment $apartment
  */
 	class History extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\Region
+ *
+ * @property int $id
+ * @property int $country_id
+ * @property string $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\City[] $cities
+ * @property-read int|null $cities_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Region newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Region newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Region query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Region whereCountryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Region whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Region whereName($value)
+ */
+	class Region extends \Eloquent {}
 }
 
 namespace App{

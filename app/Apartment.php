@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Classes\Filter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
@@ -102,27 +103,41 @@ class Apartment extends Model
             $img->save($path .'/' .$imgName);
             return self::$imgPath = '/' . $path .'/' .$imgName;
         }
+
+        return '';
     }
 
-    public static function apartmentFilter(array $data) {
-        $apartments = Apartment::select('apartments.*');
+    public static function apartmentFilter(Filter $filter) {
+        $apartments = Apartment::select(array('apartments.*','users.name as username'))->leftJoin('users', 'apartments.user_id', 'users.id');
 
-        if (isset($data['price']) && $price = $data['price']){
+        if ($country = $filter->country_id) {
+            $apartments->where('country_id', '=', $country);
+        }
+
+        if ($region = $filter->region_id) {
+            $apartments->where('region_id', '=', $region);
+        }
+
+        if ($city = $filter->city_id) {
+            $apartments->where('city_id', '=', $city);
+        }
+
+        if ($price = $filter->price){
             !isset($price['min']) ? : $apartments->where('price', '>=', $price['min']);
             !isset($price['max']) ? : $apartments->where('price', '<=', $price['max']);
         }
 
-        if ($area = $data['area']){
+        if ($area = $filter->area){
             $apartments->where('area', '>=', (int) $area);
         }
 
-        if ($type = $data['type']){
+        if ($type = $filter->type){
             $apartments->where('type_id', '=', (int) $type);
         }
 
 
-        if (isset($data['attributes'])){
-            $attributes = $data['attributes'];
+        if ($filter->attributes){
+            $attributes = $filter->attributes;
             $joinCounter = 0;
             foreach ($attributes as $key => $value) {
                 $apartments->leftJoin('apartment_attributes as attr' . $joinCounter, 'apartments.id', 'attr' . $joinCounter . '.apartment_id');

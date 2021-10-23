@@ -18,7 +18,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <!-- site icons -->
-    <link rel="icon" href="images/fevicon/fevicon.png" type="image/gif" />
+    <link rel="icon" href="/favicon.ico" type="image/gif" />
     <!-- Owl Stylesheets -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/owl.carousel.min.css') }}" />
     <!-- nice select css -->
