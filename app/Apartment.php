@@ -146,7 +146,7 @@ class Apartment extends Model
             }
         }
 
-        return $apartments->distinct()->get();
+        return $apartments->distinct()->paginate();
     }
 
     public function attributesSave(Request $request, $apartment_id) {

@@ -26,4 +26,12 @@ class ApartmentObserve
         $apartment->attributes()->delete();
         $apartment::$imgPath !== "" ? $apartment->image = $apartment::$imgPath : false;
     }
+
+    public function saved($apartment) {
+        History::insert(array(
+            'apartment_id' => $apartment->id,
+            'price'        => $apartment->price,
+            'created_at'   => $apartment->created_at,
+        ));
+    }
 }

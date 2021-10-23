@@ -10,7 +10,8 @@ use Carbon\Carbon;
 class AnalyticsController extends Controller{
     public function getCarts(){
         return view('admin.analytics.charts', [
-            'head_text' => 'Аналитика'
+            'head_text' => 'Аналитика',
+            'apartment_count' => Apartment::all()->count()
         ]);
     }
 

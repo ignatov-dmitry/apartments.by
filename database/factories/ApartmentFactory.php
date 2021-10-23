@@ -25,6 +25,7 @@ $factory->define(App\Apartment::class, function (Faker $faker) {
     $randCityId = $cityIds[$cityArrayKey];
     $regionId = City::find($randCityId)->region_id;
     $countryId = Region::find($regionId)->country_id;
+    $typeId = rand(1, 2);
     //$image = '/assets/images/' . $faker->image('public/assets/images', 750, 450, null, false);
 
     $image = '';
@@ -32,18 +33,17 @@ $factory->define(App\Apartment::class, function (Faker $faker) {
     $userArrayKey = array_rand($usersIds, 1);
     $userId = $usersIds[$userArrayKey];
 
-
     return [
         'user_id'     => $userId,
         'name'        => 'Квартира в ' . City::find($randCityId)->name,
         'description' => $faker->text,
         'address'     => $faker->address,
-        'price'       => rand(70, 500),
+        'price'       => $typeId == 1 ? rand(20000, 120000) : rand(70, 500),
         'city_id'     => $randCityId,
         'region_id'   => $regionId,
         'country_id'  => $countryId,
         'lock'        => 0,
-        'type_id'     => rand(1, 2),
+        'type_id'     => $typeId,
         'area'        => rand(23, 80),
         'moderated'   => 1,
         'rooms'       => rand(1, 4),

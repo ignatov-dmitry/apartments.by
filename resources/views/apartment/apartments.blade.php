@@ -13,7 +13,7 @@
                             <select name="filter[country_id]" id="country_id" class="form-control">
                                 <option value="0">--Выберите страну--</option>
                                 @foreach($countries as $country)
-                                    <option  @if($country->id == $filter_param['country_id']) selected @endif value="{{ $country->id }}">{{ $country->name }}</option>
+                                    <option  @if($country->id == $filter_param->country_id) selected @endif value="{{ $country->id }}">{{ $country->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -31,19 +31,19 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-6"><label for="price_min">Цена от</label><input value="{{ $filter_param['price']['min'] }}" id="price_min" name="filter[price][min]" type="text" class="form-control" placeholder="Мин. цена"></div>
-                                <div class="col-md-6"><label for="price_max">Цена до</label><input value="{{ $filter_param['price']['max'] }}" id="price_max" name="filter[price][max]" type="text" class="form-control" placeholder="Макс. цена"></div>
+                                <div class="col-md-6"><label for="price_min">Цена от</label><input value="{{ $filter_param->price['min'] }}" id="price_min" name="filter[price][min]" type="text" class="form-control" placeholder="Мин. цена"></div>
+                                <div class="col-md-6"><label for="price_max">Цена до</label><input value="{{ $filter_param->price['max'] }}" id="price_max" name="filter[price][max]" type="text" class="form-control" placeholder="Макс. цена"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="area">Минимальная площадь</label>
-                            <input id="area" value="{{ $filter_param['area'][0] }}" name="filter[area]" type="text" class="form-control" placeholder="Мин. площадь">
+                            <input id="area" value="{{ $filter_param->area }}" name="filter[area]" type="text" class="form-control" placeholder="Мин. площадь">
                         </div>
                         <div class="form-group">
                             <label for="type">Тип</label>
                             <select name="filter[type]" class="form-control">
                                 @foreach($apartments_types as $apartments_type)
-                                    <option @if($apartments_type->id == $filter_param['type'][0]) selected @endif value="{{ $apartments_type->id }}">{{ $apartments_type->type_text }}</option>
+                                    <option @if($apartments_type->id == $filter_param->type) selected @endif value="{{ $apartments_type->id }}">{{ $apartments_type->type_text }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -51,7 +51,7 @@
                             <label for="attributes">Аттрибуты</label>
                             <select id="attributes" name="filter[attributes][]" multiple>
                                 @foreach($filters as $filter)
-                                    <option @if(isset($filter_param['attributes']) && in_array($filter->id, $filter_param['attributes'])) selected @endif value="{{ $filter->id }}">{{ $filter->name }}</option>
+                                    <option @if(isset($filter_param->attributes) && in_array($filter->id, $filter_param->attributes)) selected @endif value="{{ $filter->id }}">{{ $filter->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -222,9 +222,9 @@
                 </div>
             </div>
         </div>
+        {{ $apartments->appends(Request::all())->links('vendor.pagination.default') }}
     </div>
 </section>
-
 
 @endsection
 @section('js')

@@ -4,7 +4,10 @@ namespace App\Classes;
 
 class Filter {
 
-    public $price = [];
+    public $price = [
+        'min' => null,
+        'max' => null
+    ];
 
     public $area = null;
 

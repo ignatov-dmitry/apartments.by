@@ -11,12 +11,13 @@ use App\Country;
 use App\Favorite;
 use App\Region;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class ApartmentController extends Controller
 {
     public function getApartments(Request $request)
     {
-        $filter = isset($request->filter) ? $request->filter : null;
+        $filter = isset($request->filter) ? new Filter($request->filter) : new Filter();
         $apartments = Apartment::apartmentFilter(new Filter($filter));
 
         return view('apartment.apartments', [

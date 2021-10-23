@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-md-6">
                     <h2 class="text-center">Cтатистика</h2>
-                    <p><strong>Количество квартир на сайте: </strong></p>
+                    <p><strong>Количество квартир на сайте: </strong>{{ $apartment_count }}</p>
                     <p><strong>Средняя цена за квадрат: </strong></p>
 
                 </div>
