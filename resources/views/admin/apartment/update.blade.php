@@ -74,14 +74,21 @@
                             <div class="col-md-6">
                                 <h2>Статические атрибуты</h2>
 
-                                @foreach($attributes as $attribute)
+                                <div class="form-group">
+                                    <select id="attributes" name="attribute_id[]" multiple>
+                                        @foreach($attributes as $attribute)
+                                            <option @if(in_array($attribute->id, $checked_attributes)) selected @endif value="{{ $attribute->id }}">{{ $attribute->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+{{--                                @foreach($attributes as $attribute)--}}
 
-                                    <div class="form-group">
-                                        <label for="attribute-id_{{ $attribute->id }}">
-                                            <input @if(in_array($attribute->id, $checked_attributes)) checked @endif type="checkbox" id="attribute-id_{{ $attribute->id }}" name="attribute_id[{{ $attribute->id }}]" value="1">&nbsp;{{ $attribute->name }}
-                                        </label>
-                                    </div>
-                                @endforeach
+{{--                                    <div class="form-group">--}}
+{{--                                        <label for="attribute-id_{{ $attribute->id }}">--}}
+{{--                                            <input @if(in_array($attribute->id, $checked_attributes)) checked @endif type="checkbox" id="attribute-id_{{ $attribute->id }}" name="attribute_id[{{ $attribute->id }}]" value="1">&nbsp;{{ $attribute->name }}--}}
+{{--                                        </label>--}}
+{{--                                    </div>--}}
+{{--                                @endforeach--}}
                                 <button class="btn btn-danger">
                                     <span>
                                       Сохранить
@@ -95,4 +102,34 @@
         </div>
     </section>
 
+@endsection
+@section('js')
+    <script src="{{ asset('assets/js/selectize.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#attributes").selectize({
+                plugins: ["remove_button"],
+                delimiter: ",",
+                placeholder: 'Выберите аттрибуты',
+                persist: false,
+                create: function (input) {
+                    return {
+                        value: input,
+                        text: input,
+                    };
+                },
+            });
+            let countryId = @if(isset($apartment->country_id)) {{ $apartment->country_id }} @else false @endif;
+            let regionId = @if(isset($apartment->region_id)) {{ $apartment->region_id }} @else false @endif;
+            let cityId = @if(isset($apartment->city_id)) {{ $apartment->city_id }} @else false @endif;
+
+            if (countryId) {
+                getRegions(countryId, regionId);
+            }
+
+            if (regionId) {
+                getCities(regionId, cityId)
+            }
+        });
+    </script>
 @endsection

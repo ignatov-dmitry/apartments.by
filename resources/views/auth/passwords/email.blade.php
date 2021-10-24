@@ -1,4 +1,7 @@
-@extends('layouts.app')
+@php
+    $head_text = "Восстановить пароль"
+@endphp
+@extends('layouts.others')
 
 @section('content')
 <div class="container">

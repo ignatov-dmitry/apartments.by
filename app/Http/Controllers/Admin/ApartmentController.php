@@ -39,14 +39,14 @@ class ApartmentController extends Controller
     }
 
     public function getApartments(){
-        $apartment = Apartment::all();
+        $apartment = Apartment::distinct();
         if (\Auth::user()->isUser()){
             $apartment = $apartment->where('user_id' , \Auth::user()->id);
         }
 
         return view('admin.apartment.list', [
             'head_text' => 'Список квартир',
-            'apartments' => $apartment
+            'apartments' => $apartment->paginate()
         ]);
     }
 
@@ -56,13 +56,12 @@ class ApartmentController extends Controller
         $apartment->imageSave($request);
         $apartment->update($request->all());
         $attribute_ids = $request->get('attribute_id');
-
         if ($attribute_ids){
             foreach ($attribute_ids as $key => $value){
                 $apartmentAttribute = new ApartmentAttribute();
                 if ($value !== null && $value !== ""){
                     $apartmentAttribute->apartment_id = $apartment->id;
-                    $apartmentAttribute->attribute_id = $key;
+                    $apartmentAttribute->attribute_id = $value;
                     $apartmentAttribute->save();
                 }
 
