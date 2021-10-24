@@ -12,14 +12,8 @@ $factory->define(App\Apartment::class, function (Faker $faker) {
     $usersIds = array();
     $cityIds = array();
 
-    foreach ($cities as $city){
-        $cityIds[] = $city['id'];
-    }
-
-    foreach ($users as $user) {
-        $usersIds[] = $user['id'];
-    }
-
+    $cityIds = array_column($cities, 'id');
+    $usersIds = array_column($users, 'id');
 
     $cityArrayKey = array_rand($cityIds, 1);
     $randCityId = $cityIds[$cityArrayKey];
