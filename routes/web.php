@@ -47,6 +47,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/admin/delete_user', 'Admin\UserController@deleteUser')->middleware('can:admin-panel')->name('deleteUser');
 
 
+    Route::get('/admin/blog', function () {
+        return view('admin.blog.index');
+    })->name('admin_blog');
+
+
     Route::get('/admin/charts', 'Admin\AnalyticsController@getCarts')->name('charts');
     Route::get('/json/analytics', 'Admin\AnalyticsController@getPricesHistory');
 

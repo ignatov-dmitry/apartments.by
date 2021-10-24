@@ -88,6 +88,7 @@
                     </div>
                 </div>
                 @endmanager
+                @admin
                 <div class="col-md-4 ">
                     <div class="box">
                         <div class="detail-box">
@@ -104,6 +105,25 @@
                         </div>
                     </div>
                 </div>
+                @endadmin
+                @manager
+                <div class="col-md-4 ">
+                    <div class="box">
+                        <div class="detail-box">
+                            <h5>
+                                Блог
+                            </h5>
+                            <div class="blog_bottom">
+                                <a href="{{ route('admin_blog') }}" class="blog_btn">
+                                    <span>
+                                      Перейти
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endmanager
             </div>
         </div>
     </section>
