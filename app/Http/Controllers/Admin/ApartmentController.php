@@ -7,7 +7,6 @@ use App\ApartmentAttribute;
 use App\ApartmentType;
 use App\Attribute;
 use App\Country;
-use App\Region;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

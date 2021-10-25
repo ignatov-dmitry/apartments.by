@@ -114,7 +114,7 @@
                                 Блог
                             </h5>
                             <div class="blog_bottom">
-                                <a href="{{ route('admin_blog') }}" class="blog_btn">
+                                <a href="{{ route('adminBlog') }}" class="blog_btn">
                                     <span>
                                       Перейти
                                     </span>

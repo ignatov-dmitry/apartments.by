@@ -29,6 +29,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('admin-panel', function (User $user) {
             return $user->isAdmin();
         });
+        Gate::define('manager-panel', function (User $user) {
+            return $user->role <= 2;
+        });
         Gate::define('show-apartment', function (User $user, Apartment $apartment) {
             return $user->id == $apartment->user_id || $user->isAdmin();
         });

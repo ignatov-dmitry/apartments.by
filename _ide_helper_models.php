@@ -130,6 +130,60 @@ namespace App{
 
 namespace App{
 /**
+ * App\Blog
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $description
+ * @property string $content
+ * @property string|null $image
+ * @property int $category_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog whereUpdatedAt($value)
+ */
+	class Blog extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\BlogCategory
+ *
+ * @property int $id
+ * @property int $parent_id
+ * @property string $name
+ * @property string $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\BlogCategory[] $categories
+ * @property-read int|null $categories_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\BlogCategory[] $childrenCategories
+ * @property-read int|null $children_categories_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereUpdatedAt($value)
+ */
+	class BlogCategory extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\City
  *
  * @property int $id
