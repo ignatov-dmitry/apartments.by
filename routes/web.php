@@ -128,6 +128,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/charts', 'Admin\AnalyticsController@getCarts')->name('charts');
     Route::get('/json/analytics', 'Admin\AnalyticsController@getPricesHistory');
 
+    Route::post('ajax/uploader/upload', function () {
+        return '';
+    });
+
 });
 
 Route::get('/auth', function (){

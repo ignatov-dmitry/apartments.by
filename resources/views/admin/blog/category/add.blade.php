@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <form action="{{ route('addBlogCategory') }}" method="POST" enctype="multipart/form-data">
                         <div class="row">
-                            <div class="col-md-6 offset-md-3">
+                            <div class="col-md-8 offset-md-2">
                                 <h2>Данные</h2>
                                 {{ csrf_field() }}
                                 <div class="form-group">
@@ -43,4 +43,10 @@
             </div>
         </div>
     </section>
+@endsection
+@section('js')
+    <link rel="stylesheet" href="{{ asset('assets/css/summernote.css') }}" />
+    <script src="{{ asset('assets/js/summernote.js') }}"></script>
+    <script src="{{ asset('assets/js/summernote-ru-RU.js') }}"></script>
+    <script src="{{ asset('assets/js/summernote_editor_settings.js') }}"></script>
 @endsection
