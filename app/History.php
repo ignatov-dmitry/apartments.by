@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\History wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\History whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Apartment $apartment
  */
 class History extends Model
 {

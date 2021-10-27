@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Apartment[] $apartments
  * @property-read int|null $apartments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\City[] $cities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Region[] $regions
+ * @property-read int|null $regions_count
  */
 class Country extends Model
 {

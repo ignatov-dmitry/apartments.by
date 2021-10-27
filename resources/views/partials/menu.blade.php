@@ -17,27 +17,37 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('apartments') }}">Каталог <span class="sr-only">(current)</span></a>
             </li>
-            <!--
+
+            @if(count($blogMenu))
             <li class="nav-item custom_dropdown page_link_dmenu">
-                <a class="nav-link dropdown-toggle" href="#"> Pages </a>
+                <a class="nav-link dropdown-toggle" href="#"> Блог </a>
                 <div class="custom_dropdown-menu page_link_sm-menu">
-                    <a class="dropdown-item" href="about.html">About</a>
-                    <a class="dropdown-item" href="pricing.html">Pricing</a>
-                    <a class="dropdown-item" href="service.html">Services</a>
-                    <a class="dropdown-item" href="property_detail.html">Property Detail</a>
-                    <a class="dropdown-item" href="team.html">Our Team</a>
-                    <a class="dropdown-item" href="testimonial.html">Testimonial</a>
-                    <a class="dropdown-item" href="faq.html">Faq</a>
-                    <a class="dropdown-item" href="404_error.html">404 Error</a>
+                    @foreach($blogMenu as $item)
+                        <a class="dropdown-item" href="{{ route('getBlogPostsFromCategory', ['categoryId' => $item->id]) }}">{{ $item->name }}</a>
+                    @endforeach
                 </div>
             </li>
+            @endif
+{{--            <li class="nav-item custom_dropdown page_link_dmenu">--}}
+{{--                <a class="nav-link dropdown-toggle" href="#"> Pages </a>--}}
+{{--                <div class="custom_dropdown-menu page_link_sm-menu">--}}
+{{--                    <a class="dropdown-item" href="about.html">About</a>--}}
+{{--                    <a class="dropdown-item" href="pricing.html">Pricing</a>--}}
+{{--                    <a class="dropdown-item" href="service.html">Services</a>--}}
+{{--                    <a class="dropdown-item" href="property_detail.html">Property Detail</a>--}}
+{{--                    <a class="dropdown-item" href="team.html">Our Team</a>--}}
+{{--                    <a class="dropdown-item" href="testimonial.html">Testimonial</a>--}}
+{{--                    <a class="dropdown-item" href="faq.html">Faq</a>--}}
+{{--                    <a class="dropdown-item" href="404_error.html">404 Error</a>--}}
+{{--                </div>--}}
+{{--            </li>--}}
             <li class="nav-item">
                 <a class="nav-link" href="property.html"> Properties </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="contact.html"> Contact </a>
             </li>
-            -->
+
             @auth
             <li class="nav-item custom_dropdown blog_link_dmenu">
                 <a class="nav-link dropdown-toggle" href="#"> Управление </a>

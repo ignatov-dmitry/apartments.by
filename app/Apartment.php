@@ -58,6 +58,8 @@ use Intervention\Image\Facades\Image;
  * @property float $area
  * @property-read \App\Country $country
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Apartment whereArea($value)
+ * @property int $region_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Apartment whereRegionId($value)
  */
 class Apartment extends Model
 {

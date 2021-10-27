@@ -11,6 +11,7 @@
 |
 */
 
+use App\Blog;
 use App\BlogCategory;
 use Illuminate\Http\Request;
 
@@ -108,11 +109,13 @@ Route::group(['middleware' => ['auth']], function () {
         return view('admin.blog.index');
     })->middleware('can:manager-panel')->name('adminBlog');
 
+
+    // Категории блога
     Route::get('/admin/blog/categories', 'Admin\BlogController@getBlogCategories')
         ->middleware('can:manager-panel')
         ->name('listBlogCategories');
 
-    Route::get('/admin/blog/{id}', 'Admin\BlogController@getBlogCategory')
+    Route::get('/admin/blog/category/{id}', 'Admin\BlogController@getBlogCategory')
         ->middleware('can:manager-panel')
         ->name('getBlogCategory');
 
@@ -133,15 +136,47 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('removeBlogCategory');
 
 
-    Route::get('/admin/charts', 'Admin\AnalyticsController@getCarts')->name('charts');
-    Route::get('/json/analytics', 'Admin\AnalyticsController@getPricesHistory');
+    // Блог
+    Route::get('/admin/blog/blogs', 'Admin\BlogController@getBlogPosts')
+        ->middleware('can:manager-panel')
+        ->name('listBlogPosts');
 
-    Route::post('ajax/uploader/upload', function (Request $request) {
+    Route::get('/admin/blog/post-{id}', 'Admin\BlogController@getBlogPost')
+        ->middleware('can:manager-panel')
+        ->name('getBlogPost');
+
+    Route::get('/admin/blog/post/add', 'Admin\BlogController@addBlogPostForm')
+        ->middleware('can:manager-panel')
+        ->name('addBlogPostForm');
+
+    Route::post('/admin/blog/post/add', 'Admin\BlogController@addBlogPost')
+        ->middleware('can:manager-panel')
+        ->name('addBlogPost');
+
+    Route::post('/admin/blog/post/update', 'Admin\BlogController@updateBlogPost')
+        ->middleware('can:manager-panel')
+        ->name('updateBlogPost');
+
+    Route::post('/admin/blog/post/remove', 'Admin\BlogController@removeBlogPost')
+        ->middleware('can:manager-panel')
+        ->name('removeBlogPost');
+
+
+    Route::post('ajax/uploader/category', function (Request $request) {
         return response()->json([
             'url' => (new BlogCategory())->imageSave($request, 'file')
         ]);
     });
 
+    Route::post('ajax/uploader/blog', function (Request $request) {
+        return response()->json([
+            'url' => (new Blog())->imageSave($request, 'file')
+        ]);
+    });
+
+
+    Route::get('/admin/charts', 'Admin\AnalyticsController@getCarts')->name('charts');
+    Route::get('/json/analytics', 'Admin\AnalyticsController@getPricesHistory');
 });
 
 Route::get('/auth', function (){
@@ -157,7 +192,13 @@ Route::get('/auth', function (){
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/apartments', 'ApartmentController@getApartments')->name('apartments');
 Route::get('/apartment/{id}', 'ApartmentController@getApartment')->name('apartment');
+
+
+Route::get('/blog/category/{categoryId}', 'BlogController@getBlogPostsFromCategory')->name('getBlogPostsFromCategory');
+
+
 Route::post('/add_favorite', 'ApartmentController@addFavorite');
+
 
 Route::get('/get_cities_ajax/{region_id}', 'ApartmentController@getCitiesAjax');
 Route::get('/get_regions_ajax/{country_id}', 'ApartmentController@getRegionsAjax');

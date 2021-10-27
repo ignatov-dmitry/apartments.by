@@ -44,5 +44,89 @@
     <link rel="stylesheet" href="{{ asset('assets/css/summernote.css') }}" />
     <script src="{{ asset('assets/js/summernote.js') }}"></script>
     <script src="{{ asset('assets/js/summernote-ru-RU.js') }}"></script>
-    <script src="{{ asset('assets/js/summernote_editor_settings.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $(document).ready(function () {
+                var editor = $('#category_description');
+
+                var configFull = {
+                    lang: 'ru-RU', // default: 'en-US'
+                    shortcuts: false,
+                    airMode: false,
+                    minHeight: 300, // set minimum height of editor
+                    maxHeight: 500, // set maximum height of editor
+                    focus: false, // set focus to editable area after initializing summernote
+                    disableDragAndDrop: false,
+                    callbacks: {
+                        onImageUpload: function (files) {
+                            uploadFile(files);
+                        },
+
+                        onMediaDelete: function ($target, editor, $editable) {
+
+                            var fileURL = $target[0].src;
+                            deleteFile(fileURL);
+                            $target.remove();
+                        }
+                    }
+                };
+
+                editor.summernote(configFull);
+                function uploadFile(filesForm) {
+
+                    data = new FormData();
+
+                    for (var i = 0; i < filesForm.length; i++) {
+                        data.append("file", filesForm[i]);
+                    }
+                    $.ajax({
+                        data: data,
+                        type: "POST",
+                        url: "/ajax/uploader/category",
+                        cache: false,
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        contentType: false,
+                        processData: false,
+                        success: function (image) {
+                            if (typeof image['error'] == 'undefined') {
+                                console.log(image);
+                                editor.summernote('insertImage', image['url'], function ($image) {
+                                    //$image.css('width', $image.width() / 3);
+                                    //$image.attr('data-filename', 'retriever')
+                                });
+                            }
+                            else {
+                                var userLang = navigator.language || navigator.userLanguage;
+
+                                if (userLang === 'ru-RU') {
+                                    let error = 'Ошибка, не могу загрузить файл! Пожалуйста, проверьте файл или ссылку. ' +
+                                        'Изображение должно быть не менее 500px!';
+                                }
+                                else {
+                                    let error = 'Error, can\'t upload file! Please check file or URL. Image should be more then 500px!';
+                                }
+
+                                alert(error);
+                            }
+                        }
+                    });
+                }
+
+                function deleteFile(file) {
+                    data = new FormData();
+                    data.append("file", file);
+                    $.ajax({
+                        data: data,
+                        type: "POST",
+                        url: "/ajax/uploader/delete",
+                        cache: false,
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        contentType: false,
+                        processData: false,
+                        success: function (image) { }
+                    });
+                }
+            });
+        });
+    </script>
 @endsection

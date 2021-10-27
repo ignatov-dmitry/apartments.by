@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\BlogCategory;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,21 +15,23 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Blade::if('admin', function (){
+        Blade::if('admin', function (){
             return auth()->check() && \Auth::user()->isAdmin();
         });
 
-        \Blade::if('manager', function (){
+        Blade::if('manager', function (){
             return auth()->check() && (\Auth::user()->isManager() || \Auth::user()->isAdmin());
         });
 
-        \Blade::if('user', function (){
+        Blade::if('user', function (){
             return auth()->check() && (\Auth::user()->isUser() || \Auth::user()->isManager() || \Auth::user()->isAdmin());
         });
 
-        \Blade::if('guest', function (){
+        Blade::if('guest', function (){
             return !auth()->check() || \Auth::user()->isUser() || \Auth::user()->isManager() || \Auth::user()->isAdmin();
         });
+
+        View::share('blogMenu', BlogCategory::all());
     }
 
     /**

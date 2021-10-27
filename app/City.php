@@ -24,6 +24,9 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Apartment[] $apartments
  * @property-read int|null $apartments_count
+ * @property int $region_id
+ * @property-read \App\Region $region
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\City whereRegionId($value)
  */
 class City extends Model
 {

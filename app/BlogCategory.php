@@ -7,6 +7,28 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
+/**
+ * App\BlogCategory
+ *
+ * @property int $id
+ * @property int $parent_id
+ * @property string $name
+ * @property string $description
+ * @property string|null $image
+ * @property string|null $created_at
+ * @property string|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class BlogCategory extends Model
 {
     protected $guarded = [

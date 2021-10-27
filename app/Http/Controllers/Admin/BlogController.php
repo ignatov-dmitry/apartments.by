@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Blog;
 use App\BlogCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
+    // Категории блога
     public function getBlogCategory($id)
     {
         $blogCategory = BlogCategory::findOrFail($id);
@@ -18,7 +20,8 @@ class BlogController extends Controller
         ]);
     }
 
-    public function addBlogCategoryForm() {
+    public function addBlogCategoryForm()
+    {
         return view('admin.blog.category.add');
     }
 
@@ -57,5 +60,63 @@ class BlogController extends Controller
         $blogCategory->delete();
 
         return redirect()->route('listBlogCategories');
+    }
+
+    // Блог
+    public function getBlogPost ($id)
+    {
+        $blogPost = Blog::findOrFail($id);
+        $blogCategories = BlogCategory::all();
+
+        return view('admin.blog.update',[
+            'head_text'      => 'Редактировать категорию',
+            'blogPost'       => $blogPost,
+            'blogCategories' => $blogCategories
+        ]);
+    }
+
+    public function getBlogPosts()
+    {
+        $blogPost = Blog::distinct();
+
+        return view('admin.blog.list', [
+            'head_text'  => 'Список квартир',
+            'blogPosts'  => $blogPost->paginate()
+        ]);
+    }
+
+    public function addBlogPostForm()
+    {
+        $blogCategories = BlogCategory::all();
+        return view('admin.blog.add', array(
+            'blogCategories' => $blogCategories
+        ));
+    }
+
+    public function addBlogPost(Request $request)
+    {
+        $blogPost = new Blog($request->all());
+        $blogPost->image = $blogPost->imageSave($request, 'image');
+        $blogPost->save();
+
+        return redirect()->route('getBlogPost', $blogPost);
+    }
+
+    public function updateBlogPost(Request $request)
+    {
+        $blogPost = Blog::whereId($request->id)->first();
+        $imgPath = $blogPost->imageSave($request, 'image');
+        $imgPath == "" ? : $blogPost->image = $imgPath;
+        $blogPost->update($request->all());
+
+        return redirect()->route('getBlogPost', $blogPost);
+    }
+
+    public function removeBlogPost(Request $request)
+    {
+        $blogPost = Blog::whereId($request->id)->first();
+        $blogPost->delete();
+
+        return redirect()->route('listBlogPosts');
     }
 }

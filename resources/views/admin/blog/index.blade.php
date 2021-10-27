@@ -49,7 +49,7 @@ $head_text = 'Управление блогом';
                                 Добавить статью
                             </h5>
                             <div class="blog_bottom">
-                                <a href="{{ route('addApartmentGet') }}" class="blog_btn">
+                                <a href="{{ route('addBlogPostForm') }}" class="blog_btn">
                                     <span>
                                       Перейти
                                     </span>
@@ -65,7 +65,7 @@ $head_text = 'Управление блогом';
                                 Список статей
                             </h5>
                             <div class="blog_bottom">
-                                <a href="{{ route('addApartmentGet') }}" class="blog_btn">
+                                <a href="{{ route('listBlogPosts') }}" class="blog_btn">
                                     <span>
                                       Перейти
                                     </span>
