@@ -8,16 +8,12 @@
             <table class="table table-hover">
                 <tr>
                     <th>Имя</th>
-                    <th>Модерация</th>
-                    <th>Блокировка</th>
                     <th></th>
                     <th></th>
                 </tr>
                 @foreach($apartments as $apartment)
                     <tr>
                         <td>{{ $apartment->name }}</td>
-                        <td>{{ $apartment->moderated }}</td>
-                        <td>{{ $apartment->lock }}</td>
                         <td><a href="{{ route('getApartment', ['id' => $apartment->id]) }}">Редактировать</a></td>
                         <td>
                             <a href="#" id="delete" data-toggle="modal" data-target="#modal-{{ $apartment->id }}">Удалить</a>

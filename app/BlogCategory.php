@@ -10,17 +10,19 @@ use Intervention\Image\Facades\Image;
 class BlogCategory extends Model
 {
     protected $guarded = [
-        '_token'
+        '_token',
+        'files',
+        'image'
     ];
 
     public $timestamps = false;
 
     public static $imgPath = '';
 
-    public function imageSave(Request $request) {
+    public function imageSave(Request $request, $field = null) {
         $fileSystem = new Filesystem();
-        if($request->file('image')){
-            $file = $request->file('image');
+        if(!is_null($field) && $request->file($field)){
+            $file = $request->file($field);
             $img = Image::make($file);
             $img->resize(750,451, function($image) {
                 $image->aspectRatio();

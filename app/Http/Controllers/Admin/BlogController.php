@@ -19,7 +19,6 @@ class BlogController extends Controller
     }
 
     public function addBlogCategoryForm() {
-        $blogCategories = BlogCategory::all();
         return view('admin.blog.category.add');
     }
 
@@ -29,13 +28,14 @@ class BlogController extends Controller
 
         return view('admin.blog.category.list', [
             'head_text'  => 'Список квартир',
-            'apartments' => $blogCategories->paginate()
+            'categories' => $blogCategories->paginate()
         ]);
     }
 
     public function addBlogCategory(Request $request)
     {
         $blogCategory = new BlogCategory($request->all());
+        $blogCategory->image = $blogCategory->imageSave($request, 'image');
         $blogCategory->save();
 
         return redirect()->route('getBlogCategory', $blogCategory);
@@ -44,8 +44,18 @@ class BlogController extends Controller
     public function updateBlogCategory(Request $request)
     {
         $blogCategory = BlogCategory::whereId($request->id)->first();
+        $imgPath = $blogCategory->imageSave($request, 'image');
+        $imgPath == "" ? : $blogCategory->image = $imgPath;
         $blogCategory->update($request->all());
 
         return redirect()->route('getBlogCategory', $blogCategory);
+    }
+
+    public function removeBlogCategory(Request $request)
+    {
+        $blogCategory = BlogCategory::whereId($request->id)->first();
+        $blogCategory->delete();
+
+        return redirect()->route('listBlogCategories');
     }
 }

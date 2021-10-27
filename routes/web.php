@@ -11,6 +11,9 @@
 |
 */
 
+use App\BlogCategory;
+use Illuminate\Http\Request;
+
 Route::get('/', function () {
     return view('index');
 });
@@ -100,6 +103,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('deleteUser');
 
 
+
     Route::get('/admin/blog', function () {
         return view('admin.blog.index');
     })->middleware('can:manager-panel')->name('adminBlog');
@@ -124,12 +128,18 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware('can:manager-panel')
         ->name('updateBlogCategory');
 
+    Route::post('/admin/blog/categories/remove', 'Admin\BlogController@removeBlogCategory')
+        ->middleware('can:manager-panel')
+        ->name('removeBlogCategory');
+
 
     Route::get('/admin/charts', 'Admin\AnalyticsController@getCarts')->name('charts');
     Route::get('/json/analytics', 'Admin\AnalyticsController@getPricesHistory');
 
-    Route::post('ajax/uploader/upload', function () {
-        return '';
+    Route::post('ajax/uploader/upload', function (Request $request) {
+        return response()->json([
+            'url' => (new BlogCategory())->imageSave($request, 'file')
+        ]);
     });
 
 });

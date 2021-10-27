@@ -37,13 +37,13 @@ $(document).ready(function () {
 
 // Upload file on the server.
         function uploadFile(filesForm) {
+
             data = new FormData();
 
 // Add all files from form to array.
             for (var i = 0; i < filesForm.length; i++) {
-                data.append("files[]", filesForm[i]);
+                data.append("file", filesForm[i]);
             }
-
             $.ajax({
                 data: data,
                 type: "POST",
@@ -52,20 +52,17 @@ $(document).ready(function () {
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 contentType: false,
                 processData: false,
-                success: function (images) {
-//console.log(images);
+                success: function (image) {
+
+
 
 // If not errors.
-                    if (typeof images['error'] == 'undefined') {
-
-// Get all images and insert to editor.
-                        for (var i = 0; i < images['url'].length; i++) {
-
-                            editor.summernote('insertImage', images['url'][i], function ($image) {
-//$image.css('width', $image.width() / 3);
-//$image.attr('data-filename', 'retriever')
-                            });
-                        }
+                    if (typeof image['error'] == 'undefined') {
+                        console.log(image);
+                        editor.summernote('insertImage', image['url'], function ($image) {
+                            //$image.css('width', $image.width() / 3);
+                            //$image.attr('data-filename', 'retriever')
+                        });
                     }
                     else {
 // Get user's browser language.
