@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-9 offset-md-1">
-                    <form action="{{ route('updateBlogPost') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('updateAdminBlogPost') }}" method="POST" enctype="multipart/form-data">
                         <input value="{{ $blogPost->id }}" name="id" type="hidden">
                         <h2>Данные</h2>
                         {{ csrf_field() }}

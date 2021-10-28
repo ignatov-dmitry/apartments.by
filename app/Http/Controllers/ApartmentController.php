@@ -11,7 +11,7 @@ use App\Country;
 use App\Favorite;
 use App\Region;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Auth;
 
 class ApartmentController extends Controller
 {
@@ -58,10 +58,8 @@ class ApartmentController extends Controller
 
     public function addFavorite(Request $request)
     {
-        $favorite = Favorite::updateOrCreate([
-            'apartment_id' => $request->id,
-            'user_id'      => \Auth::id()
-        ]);
+        Apartment::addFavorite($request->id, Auth::id());
+
         return redirect()->back();
     }
 

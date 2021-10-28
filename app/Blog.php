@@ -30,6 +30,7 @@ use Intervention\Image\Facades\Image;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\BlogCategory $blogCategory
  */
 class Blog extends Model
 {
@@ -40,6 +41,14 @@ class Blog extends Model
     ];
 
     public static $imgPath = '';
+
+    public function blogCategory() {
+        return $this->belongsTo(BlogCategory::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 
     public function imageSave(Request $request, $field = null) {
         $fileSystem = new Filesystem();

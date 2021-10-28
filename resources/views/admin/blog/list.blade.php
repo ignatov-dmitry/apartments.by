@@ -18,7 +18,7 @@
                         @foreach($blogPosts as $post)
                             <tr>
                                 <td>{{ $post->name }}</td>
-                                <td><a href="{{ route('getBlogPost', ['id' => $post->id]) }}">Редактировать</a></td>
+                                <td><a href="{{ route('getAdminBlogPost', ['id' => $post->id]) }}">Редактировать</a></td>
                                 <td>
                                     <a href="#" id="delete" data-toggle="modal" data-target="#modal-{{ $post->id }}">Удалить</a>
                                     <div class="modal fade" id="modal-{{ $post->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -34,7 +34,7 @@
                                                     Вы уверены что хотите удалить эту запись?
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <form class="delete-category" action="{{ route('removeBlogPost') }}" method="POST">
+                                                    <form class="delete-category" action="{{ route('removeAdminBlogPost') }}" method="POST">
                                                         {{ csrf_field() }}
                                                         <input type="hidden" name="id" value="{{ $post->id }}">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>

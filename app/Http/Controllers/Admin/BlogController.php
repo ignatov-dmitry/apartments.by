@@ -6,6 +6,7 @@ use App\Blog;
 use App\BlogCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -97,9 +98,10 @@ class BlogController extends Controller
     {
         $blogPost = new Blog($request->all());
         $blogPost->image = $blogPost->imageSave($request, 'image');
+        $blogPost->user_id = Auth::user()->id;
         $blogPost->save();
 
-        return redirect()->route('getBlogPost', $blogPost);
+        return redirect()->route('getAdminBlogPost', $blogPost);
     }
 
     public function updateBlogPost(Request $request)
@@ -109,7 +111,7 @@ class BlogController extends Controller
         $imgPath == "" ? : $blogPost->image = $imgPath;
         $blogPost->update($request->all());
 
-        return redirect()->route('getBlogPost', $blogPost);
+        return redirect()->route('getAdminBlogPost', $blogPost);
     }
 
     public function removeBlogPost(Request $request)
@@ -117,6 +119,6 @@ class BlogController extends Controller
         $blogPost = Blog::whereId($request->id)->first();
         $blogPost->delete();
 
-        return redirect()->route('listBlogPosts');
+        return redirect()->route('listAdminBlogPosts');
     }
 }

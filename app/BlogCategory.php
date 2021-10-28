@@ -41,6 +41,10 @@ class BlogCategory extends Model
 
     public static $imgPath = '';
 
+    public function blogs() {
+        return $this->hasMany(Blog::class, 'category_id');
+    }
+
     public function imageSave(Request $request, $field = null) {
         $fileSystem = new Filesystem();
         if(!is_null($field) && $request->file($field)){

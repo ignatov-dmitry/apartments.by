@@ -6,6 +6,7 @@ use App\Classes\Filter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 
 /**
@@ -99,7 +100,7 @@ class Apartment extends Model
                 $image->aspectRatio();
                 $image->upsize();
             });
-            $path = 'uploads/apartments/' . \Auth::user()->id;
+            $path = 'uploads/apartments/' . Auth::user()->id;
             $fileSystem->makeDirectory($path, 0755, true, true);
             $imgName = uniqid() . '.' . $file->extension();
             $img->save($path .'/' .$imgName);
@@ -107,6 +108,23 @@ class Apartment extends Model
         }
 
         return '';
+    }
+
+    public static function addFavorite($apartmentId, $userId) {
+        $favorite = Favorite::select('*')
+                        ->where('user_id', '=', $userId)
+                        ->where('apartment_id', '=', $apartmentId)
+                        ->distinct()->get()->first();
+
+        isset($favorite->id) ?
+            Favorite::whereId($favorite->id)->first()->delete() :
+            Favorite::create(array('apartment_id' => $apartmentId, 'user_id' => Auth::id()));
+    }
+
+    public function isFavorite() {
+        return (bool) Favorite::select('COUNT(*)')
+            ->where('user_id', '=', Auth::id())
+            ->where('apartment_id', '=', $this->id)->count();
     }
 
     public static function apartmentFilter(Filter $filter) {

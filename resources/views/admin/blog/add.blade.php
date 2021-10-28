@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="{{ route('addBlogPost') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('addAdminBlogPost') }}" method="POST" enctype="multipart/form-data">
                         <h2>Данные</h2>
                         {{ csrf_field() }}
                         <div class="form-group">
