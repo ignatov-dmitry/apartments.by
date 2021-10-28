@@ -28,6 +28,8 @@ use Intervention\Image\Facades\Image;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereParentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\BlogCategory whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Blog[] $blogs
+ * @property-read int|null $blogs_count
  */
 class BlogCategory extends Model
 {

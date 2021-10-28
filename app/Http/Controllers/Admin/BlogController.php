@@ -13,11 +13,9 @@ class BlogController extends Controller
     // Категории блога
     public function getBlogCategory($id)
     {
-        $blogCategory = BlogCategory::findOrFail($id);
-
         return view('admin.blog.category.update',[
             'head_text'    => 'Редактировать категорию',
-            'blogCategory' => $blogCategory,
+            'blogCategory' => BlogCategory::findOrFail($id),
         ]);
     }
 

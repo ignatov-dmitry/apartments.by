@@ -31,6 +31,9 @@ use Intervention\Image\Facades\Image;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \App\BlogCategory $blogCategory
+ * @property int $user_id
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Blog whereUserId($value)
  */
 class Blog extends Model
 {
