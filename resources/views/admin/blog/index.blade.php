@@ -7,7 +7,7 @@ $head_text = 'Управление блогом';
     <section class="blog_grid_section layout_padding">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 ">
+                <div class="col-md-4 offset-md-2">
                     <div class="box">
                         <div class="detail-box">
                             <h5>
@@ -23,7 +23,7 @@ $head_text = 'Управление блогом';
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 ">
+                <div class="col-md-4">
                     <div class="box">
                         <div class="detail-box">
                             <h5>
@@ -42,7 +42,7 @@ $head_text = 'Управление блогом';
             </div>
 
             <div class="row">
-                <div class="col-md-4 ">
+                <div class="col-md-4 offset-md-2">
                     <div class="box">
                         <div class="detail-box">
                             <h5>

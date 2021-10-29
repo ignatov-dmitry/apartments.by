@@ -25,6 +25,12 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin', 'Admin\AdminController@index')->name('admin');
 
+    Route::get('/admin/apartments', function (){
+        return view('admin.apartment.index', array(
+            'head_text' => 'Управление квартирами'
+        ));
+    })->name('adminApartmentsIndex');
+
 
     Route::get('/admin/apartments/add_form','Admin\ApartmentController@getAddForm')
         ->name('addApartmentGet');
@@ -34,7 +40,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('addApartmentPost');
 
 
-    Route::get('/admin/apartments_list', 'Admin\ApartmentController@getApartments')
+    Route::get('/admin/apartments/list', 'Admin\ApartmentController@getApartments')
         ->name('list');
 
     Route::get('/admin/apartment/{id}', 'Admin\ApartmentController@getApartment')
@@ -162,6 +168,39 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('removeAdminBlogPost');
 
 
+
+    // Страницы
+    Route::get('/admin/page', function (){
+        return view('admin.page.index', array(
+            'head_text' => 'Страницы'
+        ));
+    })->name('adminPage');
+
+    Route::get('/admin/page/pages', 'Admin\PageController@getPages')
+        ->middleware('can:manager-panel')
+        ->name('listAdminPages');
+
+    Route::get('/admin/page/add', 'Admin\PageController@addPageForm')
+        ->middleware('can:manager-panel')
+        ->name('addAdminPageForm');
+
+    Route::post('/admin/page/add', 'Admin\PageController@addPage')
+        ->middleware('can:manager-panel')
+        ->name('addAdminPage');
+
+    Route::get('/admin/page/page-{id}', 'Admin\PageController@getPage')
+        ->middleware('can:manager-panel')
+        ->name('getAdminPage');
+
+    Route::post('/admin/page/update', 'Admin\PageController@updatePage')
+        ->middleware('can:manager-panel')
+        ->name('updateAdminPage');
+
+    Route::post('/admin/page/remove', 'Admin\PageController@removePage')
+        ->middleware('can:manager-panel')
+        ->name('removeAdminPage');
+
+
     Route::post('ajax/uploader/category', function (Request $request) {
         return response()->json([
             'url' => (new BlogCategory())->imageSave($request, 'file')
@@ -196,6 +235,10 @@ Route::get('/apartment/{id}', 'ApartmentController@getApartment')->name('apartme
 
 Route::get('/blog/category/{categoryId}', 'BlogController@getBlogPostsFromCategory')->name('getBlogPostsFromCategory');
 Route::get('/blog/post/{blogPostId}', 'BlogController@getBlogPost')->name('getBlogPost');
+
+
+Route::get('/page/{slug}', 'PageController@getPage')->name('getPage');
+
 
 Route::post('/add_favorite', 'ApartmentController@addFavorite')->name('addFavorite');
 

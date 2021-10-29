@@ -1,5 +1,4 @@
 @extends('layouts.others')
-
 @section('content')
     <section class="blog_grid_section">
         <div class="container">

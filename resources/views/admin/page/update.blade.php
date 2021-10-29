@@ -1,5 +1,5 @@
 @php
-    $head_text = 'Добавить страницу';
+    $head_text = 'Редактировать страницу';
 @endphp
 @extends('layouts.others')
 @section('content')
@@ -10,21 +10,22 @@
                     <form action="{{ route('addAdminPage') }}" method="POST" enctype="multipart/form-data">
                         <h2>Данные</h2>
                         {{ csrf_field() }}
+                        <input type="hidden" name="id" value="{{ $page->id }}">
                         <div class="form-group">
                             <label for="name">Название страницы</label>
-                            <input class="form-control" type="text" id="name" name="name" placeholder="Название страницы">
+                            <input value="{{ $page->name }}" class="form-control" type="text" id="name" name="name" placeholder="Название страницы">
                         </div>
                         <div class="form-group">
                             <label for="post_content">Контент</label>
-                            <textarea class="form-control" type="text" id="post_content" name="content" placeholder="Контент"></textarea>
+                            <textarea class="form-control" type="text" id="post_content" name="content" placeholder="Контент">{{ $page->content }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="order">Порядоковый номер</label>
-                            <input class="form-control" type="text" id="order" name="order" placeholder="Порядоковый номер" value="0">
+                            <input class="form-control" type="text" id="order" name="order" placeholder="Порядоковый номер" value="{{ $page->order }}">
                         </div>
                         <div class="form-group">
                             <label for="show_menu">Показывать в меню</label>
-                            <input class="" type="checkbox" id="show_menu" name="show_menu" placeholder="Порядоковый номер" value="1">
+                            <input @if($page->show_menu == 1) checked @endif type="checkbox" id="show_menu" name="show_menu" placeholder="Порядоковый номер" value="1">
                         </div>
                         <button class="btn btn-danger">
                             <span>

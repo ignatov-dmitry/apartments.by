@@ -14,9 +14,14 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/">Главная <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="{{ route('apartments') }}">Каталог <span class="sr-only">(current)</span></a>
             </li>
+            @foreach($pageMenu as $page)
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('getPage', ['slug' => $page->slug]) }}">{{ $page->name }} <span class="sr-only">(current)</span></a>
+                </li>
+            @endforeach
 
             @if(count($blogMenu))
             <li class="nav-item custom_dropdown page_link_dmenu">
@@ -41,18 +46,29 @@
 {{--                    <a class="dropdown-item" href="404_error.html">404 Error</a>--}}
 {{--                </div>--}}
 {{--            </li>--}}
-            <li class="nav-item">
-                <a class="nav-link" href="property.html"> Properties </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="contact.html"> Contact </a>
-            </li>
 
             @auth
             <li class="nav-item custom_dropdown blog_link_dmenu">
-                <a class="nav-link dropdown-toggle" href="#"> Управление </a>
+                <a class="nav-link dropdown-toggle" href="#"> Администрирование </a>
                 <div class="custom_dropdown-menu blog_link_sm-menu">
-                    <a class="dropdown-item" href="{{ route('admin') }}">Панель управления</a>
+                    <a class="dropdown-item" href="{{ route('adminApartmentsIndex') }}">Квартиры</a>
+
+                    @manager
+                    <a class="dropdown-item" href="{{ route('attributes') }}">Атрибуты квартир</a>
+                    <a class="dropdown-item" href="{{ route('managers') }}">Менеджеры</a>
+                    <a class="dropdown-item" href="{{ route('customers') }}">Пользователи</a>
+                    @endmanager
+
+                    @admin
+                    <a class="dropdown-item" href="{{ route('adminPage') }}">Страницы</a>
+                    @endadmin
+
+                    <a class="dropdown-item" href="{{ route('adminBlog') }}">Блог</a>
+
+                    @admin
+                    <a class="dropdown-item" href="{{ route('charts') }}">Аналитика</a>
+                    @endadmin
+
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">Выйти</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
