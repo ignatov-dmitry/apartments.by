@@ -13,6 +13,7 @@
 
 use App\Blog;
 use App\BlogCategory;
+use App\Page;
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
@@ -210,6 +211,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('ajax/uploader/blog', function (Request $request) {
         return response()->json([
             'url' => (new Blog())->imageSave($request, 'file')
+        ]);
+    });
+
+    Route::post('ajax/uploader/page', function (Request $request) {
+        return response()->json([
+            'url' => (new Page())->imageSave($request, 'file')
         ]);
     });
 

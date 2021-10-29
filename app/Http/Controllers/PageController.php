@@ -12,7 +12,7 @@ class PageController extends Controller
 
         return view('page.page', array(
             'head_text' => $page->name,
-            'page'       => $page
+            'page'      => $page
         ));
     }
 }

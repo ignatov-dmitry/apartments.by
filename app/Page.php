@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 /**
  * App\Page
@@ -28,9 +31,14 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Page extends Model
 {
     use Sluggable;
+
     protected $guarded = [
-        '_token'
+        '_token',
+        'files',
+        'image'
     ];
+
+    public static $imgPath = '';
 
     public $timestamps = false;
 
@@ -41,5 +49,24 @@ class Page extends Model
                 'source' => 'name'
             ]
         ];
+    }
+
+    public function imageSave(Request $request, $field = null) {
+        $fileSystem = new Filesystem();
+        if(!is_null($field) && $request->file($field)){
+            $file = $request->file($field);
+            $img = Image::make($file);
+            $img->resize(750,451, function($image) {
+                $image->aspectRatio();
+                $image->upsize();
+            });
+            $path = 'uploads/pages/' . \Auth::user()->id;
+            $fileSystem->makeDirectory($path, 0755, true, true);
+            $imgName = uniqid() . '.' . $file->extension();
+            $img->save($path .'/' .$imgName);
+            return self::$imgPath = '/' . $path .'/' .$imgName;
+        }
+
+        return '';
     }
 }

@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="{{ route('addAdminPage') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('updateAdminPage') }}" method="POST" enctype="multipart/form-data">
                         <h2>Данные</h2>
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $page->id }}">
