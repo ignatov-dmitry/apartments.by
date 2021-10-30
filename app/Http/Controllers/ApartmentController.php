@@ -66,8 +66,8 @@ class ApartmentController extends Controller
     public function getRegionsAjax($country_id)
     {
         $countries = Country::whereId($country_id)->first();
-        return view('admin.apartment.cities',[
-            'cities' => $countries->regions
+        return view('admin.apartment.regions',[
+            'regions' => $countries->regions
         ]);
     }
 

@@ -154,6 +154,7 @@ function getRegions(id, regionId = false) {
     async:false,
     url: '/get_regions_ajax/' + id,
     success: function (data) {
+      console.log(data);
       $('#region_id').html('').append(data).niceSelect('update');
       if (regionId)  {
         $('#region_id [value=' + regionId + ']').attr('selected', 'selected');

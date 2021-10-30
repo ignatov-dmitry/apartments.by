@@ -49,8 +49,37 @@ class ApartmentController extends Controller
         ]);
     }
 
+    public function getAddForm(){
+        return view('admin.apartment.add', [
+            'head_text'  => 'Добавить квартиру',
+            'countries'  => Country::all(),
+            'types'      => ApartmentType::all(),
+            'attributes' => Attribute::all()
+        ]);
+    }
+
+    public function addApartment(Request $request){
+        $apartment = new Apartment($request->all());
+        $apartment->imageSave($request);
+        $apartment->save();
+
+        $attribute_ids = $request->get('attribute_id');
+        if ($attribute_ids){
+            foreach ($attribute_ids as $key => $value){
+                $apartmentAttribute = new ApartmentAttribute();
+                if ($value !== null && $value !== ""){
+                    $apartmentAttribute->apartment_id = $apartment->id;
+                    $apartmentAttribute->attribute_id = $value;
+                    $apartmentAttribute->save();
+                }
+            }
+        }
+
+
+        return redirect()->route('getApartment', $apartment);
+    }
+
     public function updateApartment(Request $request){
-        $attribute_ids = array();
         $apartment = Apartment::whereId($request->id)->first();
         $apartment->imageSave($request);
         $apartment->update($request->all());
@@ -75,33 +104,4 @@ class ApartmentController extends Controller
         return redirect()->route('list');
     }
 
-    public function getAddForm(){
-        return view('admin.apartment.add', [
-            'head_text'  => 'Добавить квартиру',
-            'countries'  => Country::all(),
-            'types'      => ApartmentType::all(),
-            'attributes' => Attribute::all()
-        ]);
-    }
-
-    public function addApartment(Request $request){
-        $apartment = new Apartment($request->all());
-        $apartment->imageSave($request);
-        $attribute_ids = $request->get('attribute_id');
-        $apartment->save();
-
-        //Завернуть в транзакцию
-        foreach ($attribute_ids as $key => $value){
-            $apartmentAttribute = new ApartmentAttribute();
-            if ($value !== null && $value !== ""){
-                $apartmentAttribute->apartment_id = $apartment->id;
-                $apartmentAttribute->attribute_id = $key;
-                $apartmentAttribute->save();
-            }
-
-        }
-
-
-        return redirect()->route('getApartment', $apartment);
-    }
 }

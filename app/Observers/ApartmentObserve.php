@@ -6,8 +6,8 @@ use App\History;
 class ApartmentObserve
 {
     public function creating($apartment){
-        //$apartment->user_id = \Auth::user()->id;
-        //$apartment->image = $apartment::$imgPath;
+        $apartment->user_id = \Auth::user()->id;
+        $apartment->image = $apartment::$imgPath;
     }
 
     public function created($apartment) {
@@ -20,6 +20,7 @@ class ApartmentObserve
 
     public function deleting($apartment){
         $apartment->attributes()->delete();
+        $apartment->histories()->delete();
     }
 
     public function saving($apartment){

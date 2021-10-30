@@ -22,12 +22,17 @@
                                 </div>
                                 <div class="form-group">
                                     <select class="form-control" name="country_id" id="country_id">
-                                        <option>Выбирете страну</option>
+                                        <option>--Выберите страну--</option>
                                         @if($countries)
                                             @foreach ($countries as $country)
                                                 <option value="{{ $country->id }}">{{ $country->name }}</option>
                                             @endforeach
                                         @endif
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" name="region_id" id="region_id">
+                                        <option>Нужно выбрать регион</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -67,13 +72,20 @@
                             </div>
                             <div class="col-md-6">
                                 <h2>Статические атрибуты</h2>
-                                @foreach($attributes as $attribute)
-                                    <div class="form-group">
-                                        <label for="attribute-id_{{ $attribute->id }}">
-                                            <input type="checkbox" id="attribute-id_{{ $attribute->id }}" name="attribute_id[{{ $attribute->id }}]" value="1">&nbsp;{{ $attribute->name }}
-                                        </label>
-                                    </div>
-                                @endforeach
+                                <div class="form-group">
+                                    <select id="attributes" name="attribute_id[]" multiple>
+                                        @foreach($attributes as $attribute)
+                                            <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+{{--                                @foreach($attributes as $attribute)--}}
+{{--                                    <div class="form-group">--}}
+{{--                                        <label for="attribute-id_{{ $attribute->id }}">--}}
+{{--                                            <input type="checkbox" id="attribute-id_{{ $attribute->id }}" name="attribute_id[{{ $attribute->id }}]" value="1">&nbsp;{{ $attribute->name }}--}}
+{{--                                        </label>--}}
+{{--                                    </div>--}}
+{{--                                @endforeach--}}
                                 <button class="btn btn-danger">
                                     <span>
                                       Сохранить
@@ -88,4 +100,23 @@
         </div>
     </section>
 
+@endsection
+@section('js')
+    <script src="{{ asset('assets/js/selectize.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#attributes").selectize({
+                plugins: ["remove_button"],
+                delimiter: ",",
+                placeholder: 'Выберите аттрибуты',
+                persist: false,
+                create: function (input) {
+                    return {
+                        value: input,
+                        text: input,
+                    };
+                },
+            });
+        });
+    </script>
 @endsection

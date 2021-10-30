@@ -91,6 +91,10 @@ class Apartment extends Model
         return $this->hasMany('App\ApartmentAttribute');
     }
 
+    public function histories() {
+        return $this->hasMany(History::class);
+    }
+
     public function imageSave(Request $request) {
         $fileSystem = new Filesystem();
         if($request->file('image')){
