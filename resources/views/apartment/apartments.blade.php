@@ -82,28 +82,7 @@
                                             </span>
                                         </h6>
                                         <h6 class="blog_comment">
-                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
-                      <path d="M6,2h48c3.252,0,6,2.748,6,6v33c0,3.252-2.748,6-6,6H25.442L15.74,57.673C15.546,57.885,15.276,58,15,58
-	                                    c-0.121,0-0.243-0.022-0.361-0.067C14.254,57.784,14,57.413,14,57V47H6c-3.252,0-6-2.748-6-6L0,8C0,4.748,2.748,2,6,2z"></path>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                                                <g></g>
-                    </svg>
-                                            <span>
-                                                3
-                                            </span>
+                                           
                                         </h6>
                                         <h6>
                                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
@@ -211,7 +190,7 @@
                                     <div class="blog_bottom">
                                         <a href="{{ route('apartment', ['id' => $apartment->id]) }}" class="blog_btn">
                                             <span>
-                                                Read More
+                                                Подробнее
                                             </span>
                                         </a>
                                     </div>

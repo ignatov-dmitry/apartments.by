@@ -15,21 +15,34 @@ class ApartmentAttributes extends Seeder
     public function run()
     {
         $apartments = Apartment::all();
+        $counter = 0;
 
         foreach ($apartments as $apartment){
             $attributeIds = array_column(Attribute::all()->toArray(), 'id');
             $countAttributeIds = count($attributeIds);
             $countAttributes = rand(0, $countAttributeIds);
 
-            for ($i = 0; $i < $countAttributes; $i++) {
-                $attributeArrayKey = array_rand($attributeIds, 1);
-                $randAttributeId = $attributeIds[$attributeArrayKey];
-                unset($attributeIds[$attributeArrayKey]);
+            shuffle($attributeIds);
+            foreach ($attributeIds as $id) {
+
+                if ( rand(0, 3) === 3) continue;
                 ApartmentAttribute::create(array(
                     'apartment_id' => $apartment->id,
-                    'attribute_id' => $randAttributeId
+                    'attribute_id' => $id
                 ));
             }
+            $counter++;
+            if ($counter >= 100)
+                die();
+//            for ($i = 0; $i < $countAttributes; $i++) {
+//                $attributeArrayKey = array_rand($attributeIds, 1);
+//                $randAttributeId = $attributeIds[$attributeArrayKey];
+//                unset($attributeIds[$attributeArrayKey]);
+//                ApartmentAttribute::create(array(
+//                    'apartment_id' => $apartment->id,
+//                    'attribute_id' => $randAttributeId
+//                ));
+//            }
         }
     }
 }

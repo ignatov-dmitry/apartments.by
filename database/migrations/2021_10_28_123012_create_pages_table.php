@@ -18,7 +18,7 @@ class CreatePagesTable extends Migration
             $table->string('name');
             $table->mediumText('content')->nullable();
             $table->string('slug');
-            $table->boolean('show_menu');
+            $table->boolean('show_menu')->default(0);
             $table->integer('order')->default(0);
         });
     }

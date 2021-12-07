@@ -164,9 +164,8 @@ class Apartment extends Model
             $attributes = $filter->attributes;
             $joinCounter = 0;
             foreach ($attributes as $key => $value) {
-                $apartments->leftJoin('apartment_attributes as attr' . $joinCounter, 'apartments.id', 'attr' . $joinCounter . '.apartment_id');
-                $apartments->where('attr' . $joinCounter . '.attribute_id', $value);
                 $joinCounter++;
+                $apartments->whereRaw('(select apartment_id from `apartment_attributes` where `apartments`.`id` = `apartment_attributes`.`apartment_id` and apartment_attributes.`attribute_id` = ?)', [$value]);
             }
         }
 

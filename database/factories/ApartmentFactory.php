@@ -20,9 +20,9 @@ $factory->define(App\Apartment::class, function (Faker $faker) {
     $regionId = City::find($randCityId)->region_id;
     $countryId = Region::find($regionId)->country_id;
     $typeId = rand(1, 2);
-    //$image = '/assets/images/' . $faker->image('public/assets/images', 750, 450, null, false);
+    $image = '/assets/images/' . $faker->image('public/assets/images', 750, 450, null, false);
 
-    $image = '';
+    //$image = '';
 
     $userArrayKey = array_rand($usersIds, 1);
     $userId = $usersIds[$userArrayKey];
