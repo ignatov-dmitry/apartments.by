@@ -11,7 +11,9 @@
                 <div class="col-md-6">
                     <h2 class="text-center">Cтатистика</h2>
                     <p><strong>Количество квартир на сайте: </strong>{{ $apartment_count }}</p>
-                    <p><strong>Средняя цена за квадрат: </strong></p>
+                    <p><strong>Количество квартир на продажу: </strong>{{ $apartment_sale_count }}</p>
+                    <p><strong>Средняя стоимость квартир: </strong>{{ $apartment_average_sum }} руб.</p>
+                    <p><strong>Средняя цена за квадрат: </strong>{{ $apartment_average_sum_per_square }} руб.</p>
 
                 </div>
             </div>

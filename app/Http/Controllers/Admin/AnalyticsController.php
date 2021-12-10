@@ -9,9 +9,23 @@ use Carbon\Carbon;
 
 class AnalyticsController extends Controller{
     public function getCarts(){
+        $countApartments = Apartment::all()->count();
+        $saleApartments = Apartment::whereTypeId(1)->get();
+        $saleApartmentsAnalytics = array();
+
+        foreach ($saleApartments as $saleApartment) {
+            $saleApartmentsAnalytics[] = $saleApartment->price / $saleApartment->area;
+        }
+
+        $apartmentSaleCount = count($saleApartmentsAnalytics);
+        $apartmentAverageSum = array_sum($saleApartmentsAnalytics) / $apartmentSaleCount;
+
         return view('admin.analytics.charts', [
-            'head_text' => 'Аналитика',
-            'apartment_count' => Apartment::all()->count()
+            'head_text'                        => 'Аналитика',
+            'apartment_count'                  => $countApartments,
+            'apartment_sale_count'             => $apartmentSaleCount,
+            'apartment_average_sum_per_square' => round($apartmentAverageSum),
+            'apartment_average_sum'            => round(array_sum(array_column($saleApartments->toArray(), 'price')) / $countApartments)
         ]);
     }
 
@@ -43,8 +57,15 @@ class AnalyticsController extends Controller{
                     $apartmentsHistoryRent[(explode('_', $key))[0]][(explode('_', $key))[1]][] = $history->price / $history->area;
                 }
             }
-            $apartmentsHistorySale[(explode('_', $key))[0]][(explode('_', $key))[1]] = round($sumSale / count($apartmentsHistorySale[(explode('_', $key))[0]][(explode('_', $key))[1]]), 2) ;
-            $apartmentsHistoryRent[(explode('_', $key))[0]][(explode('_', $key))[1]] = round($sumRent / count($apartmentsHistoryRent[(explode('_', $key))[0]][(explode('_', $key))[1]]), 2) ;
+
+            $year = (explode('_', $key))[0];
+            $month = (explode('_', $key))[1];
+
+            if (array_key_exists($month, $apartmentsHistorySale[$year]))
+                $apartmentsHistorySale[$year][$month] = round($sumSale / count($apartmentsHistorySale[$year][$month]), 2);
+
+            if (array_key_exists($month, $apartmentsHistoryRent[$year]))
+                $apartmentsHistoryRent[$year][$month] = round($sumRent / count($apartmentsHistoryRent[$year][$month]), 2);
 
             $sumSale = 0;
             $sumRent = 0;
